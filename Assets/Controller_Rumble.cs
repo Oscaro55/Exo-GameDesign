@@ -20,7 +20,7 @@ public class Controller_Rumble : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.position) < 30)
         {
-            GamePad.SetVibration(playerIndex, 0.8f - Vector3.Distance(transform.position, player.position) / 30, 0.8f - Vector3.Distance(transform.position, player.position) / 30);
+            GamePad.SetVibration(playerIndex, 1 - Vector3.Distance(transform.position, player.position) / 30, 1 - Vector3.Distance(transform.position, player.position) / 30);
         }
 
         if (Vector3.Distance(transform.position, player.position) > 30)
