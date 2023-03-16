@@ -16,9 +16,9 @@ public class TPS_Player_Controller : MonoBehaviour
     private Camera MainCam;
     public Animator anim;
     public float Gravity;
-    private Vector3 moveDir;
     private float fallRate = 0;
     private float smoothSpeed;
+
     enum PlayerState { Idle, Moving, Falling }
     [SerializeField] PlayerState CurrentState;
     void Start()
@@ -53,8 +53,7 @@ public class TPS_Player_Controller : MonoBehaviour
         }
         else
         {
-
-            if (Direction == Vector3.zero)
+            if (Direction.magnitude <= 0.2f)
             {
                 CurrentState = PlayerState.Idle;
             }
