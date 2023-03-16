@@ -18,7 +18,8 @@ public class TPS_Player_Controller : MonoBehaviour
     public float Gravity;
     private float fallRate = 0;
     private float smoothSpeed;
-
+    private float forwardSpeed;
+    private float sideSpeed;
     enum PlayerState { Idle, Moving, Falling }
     [SerializeField] PlayerState CurrentState;
     void Start()
@@ -36,8 +37,6 @@ public class TPS_Player_Controller : MonoBehaviour
         ApplyMovement();
 
         ApplyGravity();
-
-        controller.Move(Gravity * Vector3.down * Time.deltaTime);
     }
     private void GatherInput()
     {
@@ -68,7 +67,8 @@ public class TPS_Player_Controller : MonoBehaviour
     {
         if (CurrentState == PlayerState.Moving)
         {
-
+            forwardSpeed = controller.velocity.z;
+            sideSpeed = controller.velocity.x;
             float targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + MainCam.transform.eulerAngles.y;
 
             var speedX = (Forward);
@@ -88,7 +88,7 @@ public class TPS_Player_Controller : MonoBehaviour
             if (Direction.magnitude >= 0.2f)
             {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, targetAngle, 0), RotaSpeed * Time.deltaTime);
-                controller.Move(relativeVector * RunSpeed * Time.deltaTime);
+                controller.Move(new Vector3(relativeVector.x, Gravity, relativeVector.z) * RunSpeed * Time.deltaTime);
                 smoothSpeed = Direction.magnitude;
                 anim.SetFloat("HorizontalSpeed", smoothSpeed);
             }
@@ -101,6 +101,10 @@ public class TPS_Player_Controller : MonoBehaviour
                 smoothSpeed -= Time.deltaTime*2;
                 anim.SetFloat("HorizontalSpeed", smoothSpeed);
             }
+            if (anim.GetFloat("HorizontalSpeed") <= 0)
+            {
+                anim.SetFloat("HorizontalSpeed", 0);
+            }
         }
 
     }
@@ -108,6 +112,7 @@ public class TPS_Player_Controller : MonoBehaviour
     {
         if (CurrentState == PlayerState.Falling)
         {
+            controller.Move(new Vector3(sideSpeed/1.5f, Gravity, forwardSpeed/1.5f) * Time.deltaTime);
             if (fallRate < 1)
             {
                 fallRate += Time.deltaTime * 4;
