@@ -43,7 +43,11 @@ public class TPS_Player_Controller : MonoBehaviour
         {
             ApplyMovement();
         }
-        if (DIalogueManager.GetInstance().dialogueIsPlaying) anim.SetFloat("HorizontalSpeed", 0);
+        if (DIalogueManager.GetInstance().dialogueIsPlaying)
+        {
+            anim.SetFloat("HorizontalSpeed", 0);
+            Direction = Vector3.zero;
+        }
 
         ApplyGravity();
     }
