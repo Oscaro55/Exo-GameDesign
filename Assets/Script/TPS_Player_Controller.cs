@@ -30,11 +30,6 @@ public class TPS_Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DIalogueManager.GetInstance().dialogueIsPlaying)
-        {
-            return;
-        }
-
         GatherInput();
 
         CheckStatus();
@@ -45,6 +40,7 @@ public class TPS_Player_Controller : MonoBehaviour
         {
             ApplyMovement();
         }
+
         if (DIalogueManager.GetInstance().dialogueIsPlaying)
         {
             Direction = Vector3.zero;
