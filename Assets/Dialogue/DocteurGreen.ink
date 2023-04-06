@@ -1,21 +1,23 @@
-Hello there! #speaker:Dr. Green #portrait:dr_green_neutral #layout:left #audio:animal_crossing_mid
+Hello there! #speaker:British Frog #portrait:dr_green_neutral #layout:left #audio:animal_crossing_mid
 -> main
 
 === main ===
-How are you feeling today?
-+ [Happy]
-
-    That makes me feel <color=\#F8FF30>happy</color> as well! #portrait:dr_green_happy
-+ [Sad]
-    Oh, well that makes me <color=\#5B81FF>sad</color> too. #portrait:dr_green_sad
-
-- Don't trust him, he's <b><color=\#FF1E35>not</color></b> a real doctor! #speaker:Ms. Yellow #portrait:ms_yellow_neutral #layout:right #audio:animal_crossing_high
-
-
-Well, do you have any more questions? #speaker:Dr. Green #portrait:dr_green_neutral #layout:left #audio:animal_crossing_mid
-+ [Yes]
-    -> main
-+ [No]
-    Goodbye then!
-
+Oh crikey! A bloody magic frog! I'll shag you, you filthy twat!
++ [Defend yourself]
+    Oh bollocks! Don't come near me you bloody <color=\#FF0000>Monster</color>! #portrait:dr_green_sad
++ [Run away]
+    And <color=\#5B81FF>DON'T</color> come back! #portrait:dr_green_happy
     -> END
+
+- I am but a <b><color=\#FF1E35>bystander</color></b>. #speaker:bystander_frog #portrait:ms_yellow_neutral #layout:right #audio:animal_crossing_high
+
+
+You made me drop my very real weapon! You'll pay for your actions! #speaker:British Frog #portrait:dr_green_sad #layout:left #audio:animal_crossing_mid
++ [Stare into his soul]
+    -> Looking
++ [Run away]
+    And don't come back! #portrait:dr_green_happy
+    -> END
+== Looking ==
+What you looking at? Shoo you monster!
+-> END

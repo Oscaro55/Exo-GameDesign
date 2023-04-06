@@ -32,6 +32,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             visualCue.SetActive(false);
         }
+        
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -49,4 +50,5 @@ public class DialogueTrigger : MonoBehaviour
             playerInRange = false;
         }
     }
+    
 }
