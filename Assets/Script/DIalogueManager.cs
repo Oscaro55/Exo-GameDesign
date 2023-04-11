@@ -24,7 +24,7 @@ public class DIalogueManager : MonoBehaviour
     private TextMeshProUGUI[] choicesText;
 
     private Story currentStory;
-    public bool dialogueIsPlaying { get; private set; }
+    public bool dialogueIsPlaying { get; set; }
 
     private static DIalogueManager instance;
 
