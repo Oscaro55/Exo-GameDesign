@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: f96232105e1e29d4a9a7f5c993ae979e,
+  m_Name: Water 1
+  m_Shader: {fileID: -6465566751694194690, guid: c7c3a2b99b37a9c408a5df7e97e2b800,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -35,15 +35,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Displacement_STR: 0.15
+    - _Displacement_STR: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Speed: 0.37
-    - _TextureScale: 10.64
+    - _Speed: 0.99
+    - _TextureScale: 3.56
     m_Colors:
-    - _Color: {r: 0.44705883, g: 0.5647059, b: 0.2, a: 1}
-    - _Color2: {r: 0.44838643, g: 0.5660378, b: 0.2002492, a: 1}
-    - _Smoothstep: {r: -0.55, g: 0.72, b: 0, a: 0}
+    - _Color: {r: 0.39764398, g: 0.41509426, b: 0.24083295, a: 0}
+    - _Color2: {r: 0.52517205, g: 0.53773576, b: 0.27647737, a: 0}
+    - _Smoothstep: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2229905700162963160
 MonoBehaviour:
