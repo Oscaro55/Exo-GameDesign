@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: f96232105e1e29d4a9a7f5c993ae979e,
+  m_Name: Fresnel
+  m_Shader: {fileID: -6465566751694194690, guid: a77c8df425748a44ea12544abcc27df6,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -39,7 +39,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Speed: 0.37
-    - _TextureScale: 10.64
+    - _TextureScale: 0.63
+    - _add: 0.25
     m_Colors:
     - _Color: {r: 0.44705883, g: 0.5647059, b: 0.2, a: 1}
     - _Color2: {r: 0.44838643, g: 0.5660378, b: 0.2002492, a: 1}
