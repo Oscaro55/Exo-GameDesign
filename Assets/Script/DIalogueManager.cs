@@ -34,6 +34,8 @@ public class DIalogueManager : MonoBehaviour
 
     private DialogueVariables dialogueVariables;
 
+    public AudioSource source;
+    public AudioSource source2;
     private void Awake()
     {
         if (instance != null)
@@ -94,7 +96,8 @@ public class DIalogueManager : MonoBehaviour
         displayNameText.text = "???";
         portaitAnimator.Play("Default");
         layoutAnimator.Play("right");
-
+        source2.pitch = 1.5f;
+        source2.Play();
         ContinueStory();
     }
 
@@ -107,6 +110,8 @@ public class DIalogueManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+        source2.pitch = 0.75f;
+        source2.Play();
     }
 
     private void ContinueStory()
@@ -120,6 +125,7 @@ public class DIalogueManager : MonoBehaviour
 
             //handle Tags
             HandleTags(currentStory.currentTags);
+            source.Play();
         }
         else
         {
@@ -150,7 +156,6 @@ public class DIalogueManager : MonoBehaviour
                     break;
                 case LAYOUT_TAG:
                     layoutAnimator.Play(tagValue);
-                    print("yo");
                     break;
 
                 default:

@@ -1,4 +1,9 @@
 Hello there! #speaker:British Frog #portrait:dr_green_neutral #layout:left #audio:animal_crossing_mid
+-> main1
+
+=== main1 ===
+Oh crikey! A bloody magic frog! I'll shag you, you filthy twat!
+
 -> main
 
 === main ===
@@ -13,6 +18,13 @@ Oh crikey! A bloody magic frog! I'll shag you, you filthy twat!
 
 
 You made me drop my very real weapon! You'll pay for your actions! #speaker:British Frog #portrait:dr_green_sad #layout:left #audio:animal_crossing_mid
+
+-> step2
+
+=== step2 ===
+
+You made me drop my very real weapon! You'll pay for your actions! #speaker:British Frog #portrait:dr_green_sad #layout:left #audio:animal_crossing_mid
+
 + [Stare into his soul]
     -> Looking
 + [Run away]

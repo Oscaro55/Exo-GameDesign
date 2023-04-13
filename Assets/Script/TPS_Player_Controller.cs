@@ -5,8 +5,6 @@ using UnityEngine;
 public class TPS_Player_Controller : MonoBehaviour
 {
     // Start is called before the first frame update
-    private float VerticalSpeed;
-    private float HorizontalSpeed;
     private float Forward;
     private float Side;
     private Vector3 Direction;
@@ -20,6 +18,8 @@ public class TPS_Player_Controller : MonoBehaviour
     private float smoothSpeed;
     private float forwardSpeed;
     private float sideSpeed;
+    public bool falling;
+    private bool once;
     enum PlayerState { Idle, Moving, Falling }
     [SerializeField] PlayerState CurrentState;
     void Start()
@@ -30,13 +30,11 @@ public class TPS_Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GatherInput();
+        if (!falling) GatherInput();
 
         CheckStatus();
 
-        print(DIalogueManager.GetInstance().dialogueIsPlaying);
-
-        if (!DIalogueManager.GetInstance().dialogueIsPlaying)
+        if (!DIalogueManager.GetInstance().dialogueIsPlaying && !falling)
         {
             ApplyMovement();
         }
@@ -44,9 +42,12 @@ public class TPS_Player_Controller : MonoBehaviour
         if (DIalogueManager.GetInstance().dialogueIsPlaying)
         {
             Direction = Vector3.zero;
+            anim.SetFloat("HorizontalSpeed", 0);
         }
 
         ApplyGravity();
+
+        Landing();
     }
     private void GatherInput()
     {
@@ -122,6 +123,8 @@ public class TPS_Player_Controller : MonoBehaviour
     {
         if (CurrentState == PlayerState.Falling)
         {
+            if (Gravity < -8) falling = true;
+            Gravity -= Time.deltaTime * 10;
             controller.Move(new Vector3(sideSpeed/1.5f, Gravity, forwardSpeed/1.5f) * Time.deltaTime);
             if (fallRate < 1)
             {
@@ -132,8 +135,30 @@ public class TPS_Player_Controller : MonoBehaviour
         }
         else if (fallRate > 0)
         {
+            Gravity = -5;
             fallRate -= Time.deltaTime * 4;
             anim.SetFloat("VerticalSpeed", fallRate);
         }
+    }
+
+    private void Landing()
+    {
+        if (Physics.Raycast(transform.position + new Vector3(0,-0.75f,0), Vector3.down, 0.5f))
+        {
+            if (falling && Gravity < -8 && !once)
+            {
+                anim.SetTrigger("Landing");
+                Direction = Vector3.zero;
+                StartCoroutine(LandingDelay());
+                once = true;
+            }
+        }
+    }
+
+    IEnumerator LandingDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        falling = false;
+        once = false;
     }
 }
