@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
-using System.IO;
 public class DialogueVariables
 {
     public Dictionary<string, Ink.Runtime.Object> variables;
@@ -9,12 +8,9 @@ public class DialogueVariables
     private Story globalVariablesStory;
     private const string saveVariablesKey = "INK_VARIABLES";
 
-    public DialogueVariables(string globalsFilePath)
+    public DialogueVariables(TextAsset loadGlobalsJSON)
     {
-        string inkFileContents = File.ReadAllText(globalsFilePath);
-        Ink.Compiler compiler = new Ink.Compiler(inkFileContents);
-        Story globalVariablesStory = compiler.Compile();
-
+        Story globalVariablesStory = new Story(loadGlobalsJSON.text);
 
         // initialize the dictionary
         variables = new Dictionary<string, Ink.Runtime.Object>();

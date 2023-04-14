@@ -4,18 +4,23 @@ using UnityEngine;
 using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
-using Ink.UnityIntegration;
+ 
 
 public class DIalogueManager : MonoBehaviour
 {
+    [Header("Typing Speed")]
+    [SerializeField] private float TypingSpeed = 0.04f;
+    
+
     [Header("Dialogue UI")]
+    [SerializeField] private GameObject continueIcon;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portaitAnimator;
 
-    [Header("Global Ink File")]
-    [SerializeField] private InkFile globalsInkFile;
+    [Header("Load GLoabals JSON")]
+    [SerializeField] private TextAsset loadGLoablsJSON;
 
     private Animator layoutAnimator;
 
@@ -24,6 +29,10 @@ public class DIalogueManager : MonoBehaviour
     private TextMeshProUGUI[] choicesText;
 
     private Story currentStory;
+
+    private Coroutine displayLineCoroutine;
+
+    private bool canContinueToNextLine = false;
     public bool dialogueIsPlaying { get; set; }
 
     private static DIalogueManager instance;
@@ -44,7 +53,7 @@ public class DIalogueManager : MonoBehaviour
         }
         instance = this;
 
-        dialogueVariables = new DialogueVariables(globalsInkFile.filePath);
+        dialogueVariables = new DialogueVariables(loadGLoablsJSON);
     }
 
     public static DIalogueManager GetInstance()
@@ -79,7 +88,7 @@ public class DIalogueManager : MonoBehaviour
 
         // handle continuing to the next line in the dialogue when submit is pressed
         // NOTE: The 'currentStory.currentChoiecs.Count == 0' part was to fix a bug after the Youtube video was made
-        if (currentStory.currentChoices.Count == 0 && InputManager.GetInstance().GetSubmitPressed())
+        if (canContinueToNextLine && currentStory.currentChoices.Count == 0 && InputManager.GetInstance().GetSubmitPressed())
         {
             ContinueStory();
         }
@@ -119,9 +128,11 @@ public class DIalogueManager : MonoBehaviour
         if (currentStory.canContinue)
         {
             // set text for the current dialogue line
-            dialogueText.text = currentStory.Continue();
-            // display choices, if any, for this dialogue line
-            DisplayChoices();
+            if (displayLineCoroutine != null)
+            {
+                StopCoroutine(displayLineCoroutine);
+            }
+            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
 
             //handle Tags
             HandleTags(currentStory.currentTags);
@@ -130,6 +141,57 @@ public class DIalogueManager : MonoBehaviour
         else
         {
             StartCoroutine(ExitDialogueMode());
+        }
+    }
+
+    private IEnumerator DisplayLine(string line)
+    {
+        dialogueText.text = "";
+
+        continueIcon.SetActive(false);
+        HideChoices();
+
+        canContinueToNextLine = false;
+        bool isAddingRichTextTag = false;
+
+        foreach (char letter in line.ToCharArray())
+        {
+            if (InputManager.GetInstance().GetSubmitPressed())
+            {
+                dialogueText.text = line;
+                break;
+            }
+
+            if (letter == '<' || isAddingRichTextTag)
+            {
+                isAddingRichTextTag = true;
+                dialogueText.text += letter;
+                if (letter == '>')
+                {
+                    isAddingRichTextTag = false;
+                }
+            }
+            else
+            {
+                dialogueText.text += letter;
+                yield return new WaitForSeconds(TypingSpeed);
+            }
+
+
+        }
+
+        continueIcon.SetActive(true);
+        canContinueToNextLine = true;
+        // display choices, if any, for this dialogue line
+        DisplayChoices();
+
+    }
+
+    private void HideChoices()
+    {
+        foreach (GameObject choiceButton in choices)
+        {
+            choiceButton.SetActive(false);
         }
     }
 
@@ -203,12 +265,13 @@ public class DIalogueManager : MonoBehaviour
 
     public void MakeChoice(int choiceIndex)
     {
-        currentStory.ChooseChoiceIndex(choiceIndex);
-        // NOTE: The below two lines were added to fix a bug after the Youtube video was made
-        InputManager.GetInstance().RegisterSubmitPressed(); // this is specific to my InputManager script
-        ContinueStory();
+        if (canContinueToNextLine)
+        {
+            currentStory.ChooseChoiceIndex(choiceIndex);
+            // NOTE: The below two lines were added to fix a bug after the Youtube video was made
+            InputManager.GetInstance().RegisterSubmitPressed(); // this is specific to my InputManager script
+            ContinueStory();
+        }
     }
-
-
 }
 
